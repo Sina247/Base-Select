@@ -1,0 +1,327 @@
+@import url(https://fonts.bunny.net/css?family=jura:300,500);
+@layer base, demo;
+
+@layer demo {
+  :root {
+    --fade-transition-duration: 500ms;
+    --select-size: 80px;
+    --select-padding: 15px;
+    --circle-size: calc(var(--select-size) * 2.5);
+    --option-radius: calc(var(--circle-size) / -2);
+    --option-size: 50px;
+    --image-1: url("img/1.jpg");
+    --image-2: url("img/2.jpg");
+    --image-3: url("img/3.jpg");
+    --image-4: url("img/4.jpg");
+    --image-5: url("img/5.jpg");
+  }
+
+  body:has(#select-theme option:nth-child(1):checked) .bg-wrapper> :nth-child(1),
+  body:has(#select-theme option:nth-child(2):checked) .bg-wrapper> :nth-child(2),
+  body:has(#select-theme option:nth-child(3):checked) .bg-wrapper> :nth-child(3),
+  body:has(#select-theme option:nth-child(4):checked) .bg-wrapper> :nth-child(4),
+  body:has(#select-theme option:nth-child(5):checked) .bg-wrapper> :nth-child(5) {
+    --bg-opacity: 1;
+  }
+
+  .bg-wrapper {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+
+    &>* {
+      position: absolute;
+      inset: 0;
+      background-image: var(--bg-img);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: var(--bg-opacity, 0);
+      transition: opacity var(--fade-transition-duration) ease-in-out;
+
+      &:nth-child(1) {
+        --bg-img: var(--image-1);
+      }
+
+      &:nth-child(2) {
+        --bg-img: var(--image-2);
+      }
+
+      &:nth-child(3) {
+        --bg-img: var(--image-3);
+      }
+
+      &:nth-child(4) {
+        --bg-img: var(--image-4);
+      }
+
+      &:nth-child(5) {
+        --bg-img: var(--image-5);
+      }
+    }
+  }
+
+  .theme-select {
+    position: fixed;
+    z-index: 2;
+    top: 1rem;
+    right: 1rem;
+    display: grid;
+    place-items: center;
+    gap: 0.15rem;
+    color: #fff;
+
+    &>label {
+      font-size: .7rem;
+      z-index: 2;
+
+      &>svg {
+        display: none;
+      }
+    }
+
+    @supports (appearance: base-select) {
+      &>* {
+        grid-area: 1/1;
+      }
+
+      &>label {
+        pointer-events: none;
+
+        &>svg {
+          display: block;
+          width: calc(var(--select-size) - var(--select-padding));
+          height: 100%;
+        }
+
+        &>span {
+          display: none;
+        }
+      }
+    }
+
+  }
+
+  select {
+    --total-options: sibling-count();
+    --start-angle: 25deg;
+    --rotation-divide: calc(90deg / (var(--total-options) - 1));
+
+    appearance: none;
+    display: grid;
+    place-content: center;
+    width: var(--select-size);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background-color: transparent;
+    color: white;
+    cursor: pointer;
+
+    @supports (appearance: base-select) {
+
+      &,
+      &::picker(select) {
+        appearance: base-select;
+      }
+    }
+  }
+
+  @supports (appearance: base-select) {
+    select {
+      position: relative;
+      font-size: 0rem;
+      overflow: visible;
+      border: none;
+
+      &::before,
+      &::after {
+        content: '';
+        position: absolute;
+        aspect-ratio: 1;
+        border-radius: inherit;
+      }
+
+      &::after {
+        inset: var(--select-padding);
+        background-color: rgb(1 1 1 / .5);
+      }
+
+      &::before {
+        background-color: rgb(255 255 255 / 0.25);
+        inset: 5px;
+        transition: inset 300ms ease-in-out, opacity 300ms ease-in-out;
+        backdrop-filter: blur(5px);
+      }
+
+      &::picker-icon {
+        display: none;
+      }
+
+      &:hover::before {
+        inset: 0;
+        opacity: 1;
+      }
+    }
+
+    ::picker(select) {
+      top: anchor(center);
+      left: anchor(center);
+      translate: -50% -50%;
+      overflow: visible;
+      transition: overlay 0.5s, display 0.5s, pointer-events 0.5s;
+      transition-behavior: allow-discrete;
+      margin: 0;
+      padding: 0;
+      background: transparent;
+      border: none;
+    }
+
+    select:open::picker(select) {
+      pointer-events: auto;
+
+      @starting-style {
+        pointer-events: none;
+      }
+    }
+
+    option {
+      &:nth-child(1) {
+        --option-bg-img: var(--image-1);
+      }
+
+      &:nth-child(2) {
+        --option-bg-img: var(--image-2);
+      }
+
+      &:nth-child(3) {
+        --option-bg-img: var(--image-3);
+      }
+
+      &:nth-child(4) {
+        --option-bg-img: var(--image-4);
+      }
+
+      &:nth-child(5) {
+        --option-bg-img: var(--image-5);
+      }
+
+      font-size: 0rem;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      translate: -50% -50%;
+      width: var(--option-size);
+      aspect-ratio: 1;
+      display: grid;
+      place-content: center;
+      background-image: var(--option-bg-img);
+      background-size: cover;
+      border-radius: 50%;
+      border: 1px solid rgb(255 255 255 / 1);
+      opacity: 0;
+      transition: opacity 500ms,
+      transform 500ms,
+      scale 300ms;
+
+      &::checkmark {
+        display: none;
+      }
+
+      &:checked {
+        border: 2px solid rgb(255 255 255 / 1);
+      }
+
+      &:hover {
+        z-index: 2;
+        scale: 1.15;
+      }
+    }
+
+    select:open option {
+      --deg: calc(var(--start-angle) - (var(--rotation-divide) * sibling-index()));
+      --deg-negative: calc(var(--deg) * -1);
+      transform: rotate(var(--deg)) translate(var(--option-radius)) rotate(var(--deg-negative));
+      opacity: 1;
+
+      @starting-style {
+        transform: none;
+      }
+    }
+  }
+}
+
+@layer base {
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  :root {
+    color-scheme: light dark;
+    --bg-dark: rgb(16, 24, 40);
+    --bg-light: rgb(248, 244, 238);
+    --txt-light: rgb(10, 10, 10);
+    --txt-dark: rgb(245, 245, 245);
+    --line-light: rgba(0 0 0 / .25);
+    --line-dark: rgba(255 255 255 / .25);
+    --clr-bg: light-dark(var(--bg-light), var(--bg-dark));
+    --clr-txt: light-dark(var(--txt-light), var(--txt-dark));
+    --clr-lines: light-dark(var(--line-light), var(--line-dark));
+  }
+
+  body {
+    background-color: var(--clr-bg);
+    color: var(--clr-txt);
+    min-height: 100svh;
+    margin: 0;
+    padding: 1rem;
+    font-family: "Jura", sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    display: grid;
+    place-content: center;
+    gap: 2rem;
+  }
+
+  section {
+    width: min(100%, 64ch);
+    margin: 0 auto;
+    padding: 1rem;
+    border-radius: 8px;
+    outline: 1px solid rgb(255 255 255 / .5);
+    outline-offset: 5px;
+    background: rgb(1 1 1 / .35);
+    color: #fff;
+    backdrop-filter: blur(7px);
+    text-wrap: pretty;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: clamp(1rem, 2.5vw + .045rem, 1.2rem);
+    text-wrap: balance;
+  }
+
+  .sr-only {
+    position: absolute !important;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .msg-supports {
+    background: rgba(255, 0, 13, 0.418);
+
+    @supports (appearance: base-select) {
+      display: none;
+    }
+  }
+}

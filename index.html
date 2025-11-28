@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Base Select</title>
+		<link rel="stylesheet" href="style.css" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+	</head>
+	<body>
+		<div class="theme-select">
+			<label for="select-theme">
+				<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width=".3" stroke-linecap="round" stroke-linejoin="round">
+					<path d="M15 8h.01" />
+					<path d="M4 15l4 -4c.928 -.893 2.072 -.893 3 0l5 5" />
+					<path d="M14 14l1 -1c.928 -.893 2.072 -.893 3 0l2 2" />
+					<path d="M3 12a9 9 0 0 0 9 9a9 9 0 0 0 9 -9a9 9 0 0 0 -9 -9a9 9 0 0 0 -9 9" />
+				</svg>
+
+				<span>Theme</span>
+			</label>
+
+			<select id="select-theme">
+				<option value="1" selected>Forest</option>
+				<option value="2">Desert</option>
+				<option value="3">Ocean</option>
+				<option value="4">Night</option>
+				<option value="5">Relax</option>
+			</select>
+		</div>
+
+		<section>
+			<h1>Custom Select Menu using <code>appearance: base-select</code></h1>
+			<p>Click on the "Theme" Select List in the top right-hand corner of the viewport to reveal the custom options.</p>
+			<p>Selecting an option will change the background image.</p>
+		</section>
+
+		<section class="msg-supports">
+			<p>Unfortunatly your browser does not support custom select lists.</p>
+		</section>
+
+		<div class="bg-wrapper">
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+		</div>
+	</body>
+</html>
