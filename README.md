@@ -1,4 +1,4 @@
-# 🎛️ BaseSelect
+# 🎛️ Base Select
 
 A **lightweight, customizable select component** built with **HTML and CSS**. Fully accessible and easy to style, BaseSelect gives you full control over appearance and behavior for modern web apps.
 
